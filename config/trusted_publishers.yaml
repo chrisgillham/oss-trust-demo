@@ -1,15 +1,20 @@
-# Trusted publisher allowlist for oss-trust-demo
-# Maps the demo app's dependencies to their canonical GitHub repos.
-
 PyPI:
-  "requests": "psf/requests"
-  "rich": "Textualize/rich"
-  "click": "pallets/click"
-  "oss-trust-framework": "chrisgillham/oss-trust-framework"
-
+  requests: psf/requests
+  rich: Textualize/rich
+  click: pallets/click
+  oss-trust-framework: chrisgillham/oss-trust-framework
+  httpx: encode/httpx
+  pyyaml: yaml/pyyaml
+  pydantic: pydantic/pydantic
+  pyotp: pyotp/pyotp
+  cryptography: cryptography/cryptography
 npm: {}
 Cargo: {}
-
 require_attestation:
   PyPI:
-    - "requests"
+  - requests
+  - httpx
+  - pyyaml
+  - pydantic
+  - pyotp
+  - cryptography
