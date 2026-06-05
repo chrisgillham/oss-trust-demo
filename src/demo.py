@@ -425,7 +425,7 @@ def main(scenario: str):
     console.print(Panel(
         "[bold green]Demo complete.[/bold green]\n"
         "[dim]Run individual scenarios with --scenario <name>[/dim]\n"
-        "[dim]Run a real check: oss-trust check --package requests --version 2.32.3 --ecosystem PyPI[/dim]",
+        "[dim]Run a real check: oss-trust check --package requests --version 2.33.0 --ecosystem PyPI[/dim]",
         style="green",
         padding=(0, 2),
     ))
