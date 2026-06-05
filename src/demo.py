@@ -57,7 +57,7 @@ def print_finding(pattern_id: str, severity: str, description: str) -> None:
 async def scenario_standard():
     print_header(
         "Scenario 1 — Standard pipeline check",
-        "Package: requests 2.33.0 (known-good, well-maintained)"
+        "Package: requests 2.32.3 (known-good, well-maintained)"
     )
 
     from oss_trust_framework.age_check.checker import check_release_age, AgeDecision
@@ -67,7 +67,7 @@ async def scenario_standard():
     try:
         age_result = await check_release_age(
             package="requests",
-            version="2.33.0",
+            version="2.32.3",
             ecosystem="PyPI",
         )
         passed = age_result.decision == AgeDecision.PASS
@@ -82,7 +82,7 @@ async def scenario_standard():
     try:
         trust_result = await aggregate_trust_score(
             package="requests",
-            version="2.33.0",
+            version="2.32.3",
             ecosystem="PyPI",
             github_repo="psf/requests",
         )
@@ -365,11 +365,7 @@ async def scenario_zeroday():
 
     console.print("  [dim]Step 5: Duplicate vote rejected[/dim]")
     r_dup = await mgr.record_approval(req.request_id, "approver_001", "123456")
-
-    if "error" in r_dup:
-        console.print(f"  [red]✗[/red] Duplicate vote rejected: {r_dup['error']}")
-    else:
-        console.print(f"  [red]✗[/red] Duplicate vote rejected — request already {r_dup['status']}")
+    console.print(f"  [red]✗[/red] Duplicate: {r_dup['error']}")
     console.print()
 
     console.print("  [bold green]→ Result: APPROVED via zero-day lane[/bold green]")
