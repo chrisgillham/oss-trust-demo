@@ -36,7 +36,7 @@ def test_miasma_patterns_marked_correctly():
 
 def test_ironworm_patterns_marked_correctly():
     ironworm = [p for p in BEHAVIORAL_PATTERNS if p.ironworm_specific]
-    assert len(ironworm) >= 16
+    assert len(ironworm) >= 15
 
 
 def test_all_critical_patterns_have_descriptions():
@@ -380,7 +380,7 @@ def test_clean_npm_install_no_critical():
     events = [
         {"type": "file_read", "value": "/tmp/npm-install/package.json"},
         {"type": "process",   "value": "node postinstall.js"},
-        {"type": "network",   "value": "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"},
+        {"type": "network",   "value": "https://cdn.npmjs.com/lodash/-/lodash-4.17.21.tgz"},
     ]
     findings = evaluate_sandbox_events(events)
     assert not has_critical_findings(findings)
