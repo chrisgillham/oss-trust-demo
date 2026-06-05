@@ -365,7 +365,10 @@ async def scenario_zeroday():
 
     console.print("  [dim]Step 5: Duplicate vote rejected[/dim]")
     r_dup = await mgr.record_approval(req.request_id, "approver_001", "123456")
-    console.print(f"  [red]✗[/red] Duplicate: {r_dup['error']}")
+    if "error" in r_dup:
+        console.print(f"  [red]✗[/red] Duplicate vote rejected: {r_dup['error']}")
+    else:
+        console.print(f"  [red]✗[/red] Duplicate vote rejected -- request already {r_dup.get('status', '')}")
     console.print()
 
     console.print("  [bold green]→ Result: APPROVED via zero-day lane[/bold green]")
