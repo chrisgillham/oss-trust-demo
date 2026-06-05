@@ -1,4 +1,4 @@
-name: OSS Trust Demo — CI
+name: OSS Trust Demo - CI
 
 on:
   push:
@@ -20,20 +20,22 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install OSS Trust Framework
-        run: pip install oss-trust-framework
+      - name: Install OSS Trust Framework from GitHub
+        run: |
+          pip install "git+https://github.com/chrisgillham/oss-trust-framework.git"
+          oss-trust --version
 
-      - name: Validate requests
+      - name: Validate requests 2.33.0
         run: |
           oss-trust check \
             --package requests \
-            --version 2.32.3 \
+            --version 2.33.0 \
             --ecosystem PyPI \
             --github-repo psf/requests \
             --output json | tee trust-requests.json
           echo "Outcome: $(jq -r .outcome trust-requests.json)"
 
-      - name: Validate rich
+      - name: Validate rich 13.9.4
         run: |
           oss-trust check \
             --package rich \
@@ -62,12 +64,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          pip install oss-trust-framework
-          pip install pytest pytest-asyncio
+      - name: Install OSS Trust Framework from GitHub
+        run: pip install "git+https://github.com/chrisgillham/oss-trust-framework.git"
 
-      - name: Run tests
+      - name: Install test dependencies
+        run: pip install pytest pytest-asyncio pyyaml
+
+      - name: Run test suite
         run: pytest tests/ -v
 
   run-demo:
@@ -82,8 +85,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: pip install oss-trust-framework rich click
+      - name: Install OSS Trust Framework from GitHub
+        run: pip install "git+https://github.com/chrisgillham/oss-trust-framework.git"
 
-      - name: Run demo — all scenarios
+      - name: Install demo dependencies
+        run: pip install rich click pyyaml
+
+      - name: Run all demo scenarios
         run: python src/demo.py --scenario all
