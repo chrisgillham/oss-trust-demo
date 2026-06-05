@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSS Trust Demo — Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&family=Libre+Franklin:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0d12; --bg2: #0f1318; --bg3: #141920; --surface: #1a2030; --surface2: #1f2840;
+  --border: #2a3548; --border2: #374560;
+  --text: #e2e8f4; --text2: #8fa3c8; --text3: #5a7099;
+  --accent: #4a9eff; --accent2: #2d7dd2; --accent-glow: rgba(74,158,255,0.15);
+  --red: #ff4d6d; --red-soft: rgba(255,77,109,0.12);
+  --amber: #f5a623; --amber-soft: rgba(245,166,35,0.12);
+  --green: #3dd68c; --green-soft: rgba(61,214,140,0.12);
+  --purple: #a78bfa; --purple-soft: rgba(167,139,250,0.12);
+  --teal: #2dd4bf; --teal-soft: rgba(45,212,191,0.1);
+  --radius: 10px; --radius-lg: 16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Libre Franklin',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,13,18,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;color:var(--text)}
+.nav-brand span{color:var(--accent)}
+.nav-links{display:flex;gap:1.75rem;list-style:none}
+.nav-links a{color:var(--text2);font-size:0.82rem;text-decoration:none;font-family:'Syne',sans-serif;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#000 !important;padding:0.35rem 1rem;border-radius:6px;font-weight:700 !important}
+.nav-cta:hover{background:#6ab4ff !important}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 2rem 6rem;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(74,158,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,black,transparent)}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(74,158,255,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-content{max-width:860px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent-glow);border:1px solid rgba(74,158,255,0.3);border-radius:100px;padding:0.3rem 1rem;font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:var(--accent);margin-bottom:1.75rem}
+.hero-badge::before{content:'●';font-size:0.55rem;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.6rem,5.5vw,4.5rem);font-weight:800;line-height:1.06;letter-spacing:-0.03em;margin-bottom:1.25rem}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:1.1rem;color:var(--text2);max-width:580px;margin-bottom:2.25rem;font-weight:300}
+.hero-actions{display:flex;gap:0.875rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.5rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.875rem;text-decoration:none;cursor:pointer;border:none;transition:all 0.2s}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{background:#6ab4ff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,158,255,0.3)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2.5rem;border-top:1px solid var(--border)}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent)}
+.stat-label{font-size:0.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em}
+section{padding:5.5rem 2rem;position:relative;z-index:1}
+.container{max-width:1060px;margin:0 auto}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.6rem}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:0.875rem;line-height:1.15}
+.section-sub{color:var(--text2);max-width:560px;font-size:1rem;margin-bottom:2.75rem}
+.bg2{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+pre,code{font-family:'JetBrains Mono',monospace}
+.code-block{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:1.25rem 0}
+.code-header{background:var(--surface);padding:0.55rem 1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.code-filename{font-size:0.75rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.code-body{padding:1.25rem;overflow-x:auto}
+.code-body pre{font-size:0.8rem;line-height:1.65;color:var(--text2)}
+.tok-kw{color:#c792ea}.tok-str{color:#c3e88d}.tok-cm{color:var(--text3);font-style:italic}
+.tok-fn{color:#82aaff}.tok-var{color:#f78c6c}.tok-num{color:var(--accent)}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.25rem}
+.scenario-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s}
+.scenario-card:hover{border-color:var(--border2);transform:translateY(-3px)}
+.scenario-num{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem}
+.scenario-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.5rem}
+.scenario-desc{font-size:0.85rem;color:var(--text2);line-height:1.55;margin-bottom:0.875rem}
+.scenario-outcome{display:inline-flex;align-items:center;gap:0.4rem;font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:4px}
+.outcome-approved{background:var(--green-soft);color:var(--green);border:1px solid rgba(61,214,140,0.25)}
+.outcome-quarantine{background:var(--amber-soft);color:var(--amber);border:1px solid rgba(245,166,35,0.25)}
+.outcome-blocked{background:var(--red-soft);color:var(--red);border:1px solid rgba(255,77,109,0.25)}
+.outcome-zd{background:var(--purple-soft);color:var(--purple);border:1px solid rgba(167,139,250,0.25)}
+.install-tabs{display:flex;gap:0.4rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab-btn{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.875rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;color:var(--text2);cursor:pointer;transition:all 0.2s}
+.tab-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.output-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.7;color:var(--text2);margin:1rem 0;overflow-x:auto}
+.out-pass{color:var(--green)}.out-fail{color:var(--red)}.out-warn{color:var(--amber)}
+.out-info{color:var(--accent)}.out-dim{color:var(--text3)}
+.gate-table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+.gate-table th{padding:0.75rem 1.1rem;text-align:left;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--border);background:var(--surface)}
+.gate-table td{padding:0.85rem 1.1rem;font-size:0.83rem;border-bottom:1px solid var(--border);vertical-align:top}
+.gate-table tr:last-child td{border-bottom:none}
+.gate-table tr:hover td{background:rgba(255,255,255,0.01)}
+.gate-num{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);font-weight:500}
+.gate-action{font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;padding:0.18rem 0.5rem;border-radius:4px;white-space:nowrap;display:inline-block}
+.ga-block{background:var(--red-soft);color:var(--red)}
+.ga-quarantine{background:var(--amber-soft);color:var(--amber)}
+.attack-table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.value-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.6rem;transition:transform 0.2s,border-color 0.2s}
+.value-card:hover{transform:translateY(-3px);border-color:var(--border2)}
+.value-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:0.875rem}
+.value-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.5rem}
+.value-card p{color:var(--text2);font-size:0.85rem;line-height:1.6}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.test-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem}
+.test-count{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);line-height:1}
+.test-file{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text3);margin:0.25rem 0 0.4rem}
+.test-desc{font-size:0.8rem;color:var(--text2)}
+.incident-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem}
+.incident-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.35rem;position:relative;overflow:hidden}
+.incident-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--amber))}
+.incident-tag{font-family:'JetBrains Mono',monospace;font-size:0.67rem;color:var(--red);background:var(--red-soft);border-radius:4px;padding:0.18rem 0.5rem;display:inline-block;margin-bottom:0.65rem}
+.incident-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.35rem}
+.incident-desc{font-size:0.82rem;color:var(--text2);line-height:1.5}
+.refs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.ref-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;text-decoration:none;transition:border-color 0.2s,transform 0.2s;display:block}
+.ref-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.ref-type{font-size:0.66rem;font-family:'JetBrains Mono',monospace;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem}
+.ref-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:0.25rem}
+.ref-desc{font-size:0.77rem;color:var(--text2)}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:3rem 2rem;text-align:center}
+.footer-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:0.4rem}
+.footer-brand span{color:var(--accent)}
+.footer-sub{color:var(--text3);font-size:0.82rem;margin-bottom:1.25rem}
+.footer-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
+.footer-links a{color:var(--text2);text-decoration:none;font-size:0.82rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--accent)}
+@media(max-width:768px){.nav-links{display:none}.hero-stats{gap:1.5rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">OSS<span>Trust</span> Demo</div>
+  <ul class="nav-links">
+    <li><a href="#why">Why it matters</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#scenarios">Scenarios</a></li>
+    <li><a href="#tests">Tests</a></li>
+    <li><a href="#output">Expected output</a></li>
+    <li><a href="https://github.com/chrisgillham/oss-trust-demo" class="nav-cta">GitHub →</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Live demo · OSS Trust Framework v0.2</div>
+    <h1>See supply chain<br>security <em>work</em>.</h1>
+    <p class="hero-sub">A hands-on demo that runs the OSS Trust Framework against real packages and simulated attack events — including IronWorm and Miasma, the campaigns actively targeting npm packages right now.</p>
+    <div class="hero-actions">
+      <a href="#install" class="btn btn-primary">Get started →</a>
+      <a href="#scenarios" class="btn btn-secondary">See the scenarios</a>
+      <a href="https://github.com/chrisgillham/oss-trust-demo" class="btn btn-secondary">View on GitHub</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">6</div><div class="stat-label">Demo scenarios</div></div>
+      <div><div class="stat-num">131</div><div class="stat-label">Passing tests</div></div>
+      <div><div class="stat-num">34</div><div class="stat-label">Behavioral patterns</div></div>
+      <div><div class="stat-num">&lt;1s</div><div class="stat-label">Full test suite</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section id="why">
+  <div class="container">
+    <div class="section-label">These attacks are happening now</div>
+    <div class="section-title">Not theoretical. Active campaigns.</div>
+    <p class="section-sub">Every incident below used a real package, a real maintainer, and real automated tooling to propagate. This demo shows exactly how the framework stops each one.</p>
+    <div class="incident-grid">
+      <div class="incident-card">
+        <div class="incident-tag">2026 · npm · CRITICAL</div>
+        <div class="incident-name">IronWorm — asteroiddao</div>
+        <div class="incident-desc">36 npm packages infected with a Rust ELF binary dropped via preinstall hook. eBPF kernel rootkit, Tor C2, harvests OpenAI/Anthropic API keys, Exodus wallet seeds, AWS credentials. Unique encrypted payload per infection defeats hash-based IOCs.</div>
+      </div>
+      <div class="incident-card">
+        <div class="incident-tag">2026 · npm · CRITICAL</div>
+        <div class="incident-name">Miasma — Red Hat Insights</div>
+        <div class="incident-desc">32 packages backdoored via compromised employee GitHub account. Orphan commits bypassed PR review. id-token:write CI/CD permission used to publish via OIDC trusted publishing. Packages carried valid Sigstore signatures.</div>
+      </div>
+      <div class="incident-card">
+        <div class="incident-tag">2026 · npm · CRITICAL</div>
+        <div class="incident-name">Shai-Hulud — TanStack</div>
+        <div class="incident-desc">170 packages compromised using the same OIDC trusted publishing playbook. Revoking tokens made things worse — the attack mechanism doesn't depend on stored secrets.</div>
+      </div>
+      <div class="incident-card">
+        <div class="incident-tag">2024 · tarball · CVSS 10.0</div>
+        <div class="incident-name">XZ Utils Backdoor</div>
+        <div class="incident-desc">Two-year social engineering campaign. Attacker gained maintainer trust, injected a backdoor into build scripts. Shipped in major Linux distributions. SSH authentication bypass. The slowest, most patient attack in the dataset.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem">
+      <div class="section-title" style="font-size:1.5rem">Value proposition</div>
+      <div class="value-grid" style="margin-top:1.5rem">
+        <div class="value-card">
+          <div class="value-icon" style="background:rgba(74,158,255,0.12)">🔍</div>
+          <h3>Catches attacks that valid signatures miss</h3>
+          <p>IronWorm and Miasma produce legitimately signed packages. The framework audits the chain of custody behind the signature — orphan commits, PR review, publisher repo identity.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon" style="background:rgba(61,214,140,0.12)">🧠</div>
+          <h3>Behavior-based, not hash-based</h3>
+          <p>IronWorm generates a unique encrypted payload per infection to defeat hash IOCs. Gate 5 matches on what the payload does — Tor connections, eBPF syscalls, AI API key access — not what it looks like.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon" style="background:rgba(167,139,250,0.12)">⚡</div>
+          <h3>Zero-day patches move fast</h3>
+          <p>The 72-hour age hold is the highest-ROI control. The expedited lane bypasses only the age gate — with machine-verified CVE confirmation, 2-of-3 MFA quorum, and a 6-hour token TTL.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon" style="background:rgba(245,166,35,0.12)">📋</div>
+          <h3>Auditable by design</h3>
+          <p>Every gate decision and exception emits a structured SIEM event. Ticket linkage is mandatory. Monthly retrospectives are enforced by circuit breaker. Built to satisfy auditors who weren't in the room.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon" style="background:rgba(45,212,191,0.12)">🏗</div>
+          <h3>Structurally hard to defeat</h3>
+          <p>Each gate queries sources independent of the compromised repository. Defeating the framework requires compromising NVD, OSV, OpenSSF Scorecard, deps.dev, the npm attestation registry, and gVisor simultaneously.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon" style="background:rgba(255,77,109,0.12)">🔌</div>
+          <h3>Drop-in CI/CD integration</h3>
+          <p>The GitHub Actions workflow fires on any lock file change, comments gate results on PRs, and fails the build on block or quarantine. No per-repo configuration after initial setup.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install" class="bg2">
+  <div class="container">
+    <div class="section-label">Installation</div>
+    <div class="section-title">Up in five minutes.</div>
+    <p class="section-sub">The framework is not yet on PyPI — install it from the GitHub source repo directly, then set up the demo.</p>
+
+    <div class="install-tabs">
+      <button class="tab-btn active" onclick="showTab('win')">Windows</button>
+      <button class="tab-btn" onclick="showTab('mac')">Mac / Linux</button>
+      <button class="tab-btn" onclick="showTab('ci')">GitHub Actions</button>
+    </div>
+
+    <div id="win" class="tab-panel active">
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot" style="background:#ff5f57"></div><div class="code-dot" style="background:#ffbd2e"></div><div class="code-dot" style="background:#28ca41"></div></div><div class="code-filename">PowerShell</div></div>
+        <div class="code-body"><pre><span class="tok-cm"># 1. Clone both repos</span>
+git clone https://github.com/chrisgillham/oss-trust-framework
+git clone https://github.com/chrisgillham/oss-trust-demo
+cd oss-trust-demo
+
+<span class="tok-cm"># 2. Create and activate virtual environment</span>
+python -m venv .venv
+.venv\Scripts\activate
+
+<span class="tok-cm"># 3. Install framework from local source</span>
+pip install -e "..\oss-trust-framework"
+pip install rich click pytest pytest-asyncio pyyaml
+
+<span class="tok-cm"># 4. Verify</span>
+oss-trust --version
+<span class="tok-cm"># oss-trust, version 0.2.0</span></pre></div>
+      </div>
+    </div>
+
+    <div id="mac" class="tab-panel">
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot" style="background:#ff5f57"></div><div class="code-dot" style="background:#ffbd2e"></div><div class="code-dot" style="background:#28ca41"></div></div><div class="code-filename">bash</div></div>
+        <div class="code-body"><pre><span class="tok-cm"># 1. Clone both repos</span>
+git clone https://github.com/chrisgillham/oss-trust-framework
+git clone https://github.com/chrisgillham/oss-trust-demo
+cd oss-trust-demo
+
+<span class="tok-cm"># 2. Create and activate virtual environment</span>
+python -m venv .venv && source .venv/bin/activate
+
+<span class="tok-cm"># 3. Install framework from local source</span>
+pip install -e ../oss-trust-framework
+pip install rich click pytest pytest-asyncio pyyaml
+
+<span class="tok-cm"># 4. Verify</span>
+oss-trust --version
+<span class="tok-cm"># oss-trust, version 0.2.0</span></pre></div>
+      </div>
+    </div>
+
+    <div id="ci" class="tab-panel">
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot" style="background:#ff5f57"></div><div class="code-dot" style="background:#ffbd2e"></div><div class="code-dot" style="background:#28ca41"></div></div><div class="code-filename">.github/workflows/ci.yml</div></div>
+        <div class="code-body"><pre><span class="tok-kw">name</span>: <span class="tok-str">OSS Trust Demo - CI</span>
+<span class="tok-kw">on</span>: [push]
+<span class="tok-kw">jobs</span>:
+  <span class="tok-kw">trust-check</span>:
+    <span class="tok-kw">runs-on</span>: ubuntu-latest
+    <span class="tok-kw">steps</span>:
+      - <span class="tok-kw">uses</span>: actions/checkout@v4
+      - <span class="tok-kw">uses</span>: actions/setup-python@v5
+        <span class="tok-kw">with</span>:
+          <span class="tok-kw">python-version</span>: <span class="tok-str">"3.12"</span>
+      - <span class="tok-kw">name</span>: Install framework from GitHub
+        <span class="tok-kw">run</span>: |
+          pip install <span class="tok-str">"git+https://github.com/chrisgillham/oss-trust-framework.git"</span>
+          pip install rich click pytest pytest-asyncio pyyaml
+      - <span class="tok-kw">name</span>: Validate requests 2.33.0
+        <span class="tok-kw">run</span>: |
+          oss-trust check \
+            --package requests --version 2.33.0 \
+            --ecosystem PyPI --github-repo psf/requests \
+            --output json | tee trust.json
+      - <span class="tok-kw">name</span>: Run 131 tests
+        <span class="tok-kw">run</span>: pytest tests/ -v</pre></div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;gap:1rem;align-items:flex-start">
+      <div style="color:var(--amber);font-size:1rem;flex-shrink:0;margin-top:0.1rem">⚠</div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:0.3rem;font-size:0.9rem">If you see ModuleNotFoundError: No module named 'oss_trust_framework'</div>
+        <p style="font-size:0.83rem;color:var(--text2)">Make sure <code style="background:var(--bg3);padding:0.1rem 0.35rem;border-radius:4px">oss_trust_framework/cli.py</code> exists in the framework repo containing <code style="background:var(--bg3);padding:0.1rem 0.35rem;border-radius:4px">from oss_trust_framework.pipeline.cli import main</code>, and that <code style="background:var(--bg3);padding:0.1rem 0.35rem;border-radius:4px">pyproject.toml</code> has <code style="background:var(--bg3);padding:0.1rem 0.35rem;border-radius:4px">packages = ["oss_trust_framework"]</code>. Then reinstall with <code style="background:var(--bg3);padding:0.1rem 0.35rem;border-radius:4px">pip install -e .</code> from the framework directory.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section id="scenarios">
+  <div class="container">
+    <div class="section-label">Demo scenarios</div>
+    <div class="section-title">Six scenarios. Real data and simulated attacks.</div>
+    <p class="section-sub">Scenarios 1 and 2 run live queries against PyPI and OSV. Scenarios 3–5 use synthetic sandbox events. Scenario 6 demonstrates the full zero-day quorum workflow.</p>
+
+    <div style="margin-bottom:1.5rem">
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot" style="background:#ff5f57"></div><div class="code-dot" style="background:#ffbd2e"></div><div class="code-dot" style="background:#28ca41"></div></div><div class="code-filename">PowerShell / bash</div></div>
+        <div class="code-body"><pre><span class="tok-cm"># Run all 6 scenarios</span>
+python src/demo.py
+
+<span class="tok-cm"># Run individually</span>
+python src/demo.py --scenario standard
+python src/demo.py --scenario cve
+python src/demo.py --scenario age
+python src/demo.py --scenario ironworm
+python src/demo.py --scenario miasma
+python src/demo.py --scenario zeroday</pre></div>
+      </div>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario-card">
+        <div class="scenario-num">Scenario 1</div>
+        <div class="scenario-name">Standard pipeline check</div>
+        <div class="scenario-desc">Checks <code style="background:var(--bg3);padding:0.1rem 0.3rem;border-radius:3px;font-size:0.78rem">requests 2.33.0</code> against live PyPI (Gate 1 age) and OSV (Gate 3 trust). Score 93/100, zero vulnerabilities.</div>
+        <div class="scenario-outcome outcome-approved">APPROVED</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-num">Scenario 2</div>
+        <div class="scenario-name">CVE-affected package</div>
+        <div class="scenario-desc">Checks <code style="background:var(--bg3);padding:0.1rem 0.3rem;border-radius:3px;font-size:0.78rem">pillow 9.0.0</code> against live OSV. Returns 14 active CVEs including GHSA-3f63, GHSA-44wm, and GHSA-8ghj.</div>
+        <div class="scenario-outcome outcome-quarantine">QUARANTINE</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-num">Scenario 3</div>
+        <div class="scenario-name">Age gate simulation</div>
+        <div class="scenario-desc">Simulates a package published 6 hours ago. Hard block fires at the 24-hour threshold. Shows the bypass path: file a CVE and use the zero-day lane.</div>
+        <div class="scenario-outcome outcome-blocked">BLOCKED</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-num">Scenario 4</div>
+        <div class="scenario-name">IronWorm pattern matching</div>
+        <div class="scenario-desc">Injects 13 synthetic sandbox events from the IronWorm attack chain. 10 CRITICAL findings — eBPF rootkit, Tor C2, AI API keys, Exodus wallet, temp.sh fallback, workflow hijack.</div>
+        <div class="scenario-outcome outcome-blocked">BLOCKED · 10 CRITICAL</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-num">Scenario 5</div>
+        <div class="scenario-name">Miasma pattern matching</div>
+        <div class="scenario-desc">Injects 8 synthetic sandbox events from the Miasma attack chain. 7 CRITICAL findings — GitHub OIDC token, GCP/AWS IMDS, Kubernetes secrets, npm re-publish, OIDC_PACKAGES env var.</div>
+        <div class="scenario-outcome outcome-blocked">BLOCKED · 7 CRITICAL</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-num">Scenario 6</div>
+        <div class="scenario-name">Zero-day expedited lane</div>
+        <div class="scenario-desc">Full quorum workflow for CVE-2024-99999. Wrong MFA token rejected. Duplicate vote rejected. Second valid approver triggers quorum. Immediate full-fleet deploy + 48h alert window.</div>
+        <div class="scenario-outcome outcome-zd">APPROVED via ZD lane</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPECTED OUTPUT -->
+<section id="output" class="bg2">
+  <div class="container">
+    <div class="section-label">Expected output</div>
+    <div class="section-title">What you should see.</div>
+
+    <div class="install-tabs">
+      <button class="tab-btn active" onclick="showTab('out-standard')">Scenario 1</button>
+      <button class="tab-btn" onclick="showTab('out-ironworm')">Scenario 4</button>
+      <button class="tab-btn" onclick="showTab('out-zeroday')">Scenario 6</button>
+      <button class="tab-btn" onclick="showTab('out-check')">oss-trust check</button>
+      <button class="tab-btn" onclick="showTab('out-tests')">pytest</button>
+    </div>
+
+    <div id="out-standard" class="tab-panel active">
+      <div class="output-block">
+<span class="out-info">╭─────────────────────────────────────────────────────╮
+│  Scenario 1 — Standard pipeline check               │
+│  Package: requests 2.33.0 (known-good)              │
+╰─────────────────────────────────────────────────────╯</span>
+
+<span class="out-dim">Running Gate 1 — Age check...</span>
+<span class="out-pass">  ✅ Gate 1 (Age)  pass  1732h old</span>
+<span class="out-dim">Running Gate 3 — Out-of-band trust...</span>
+<span class="out-pass">  ✅ Gate 3 (OOB Trust)  PASS  score: 93/100 · vulns: 0</span>
+
+<span class="out-pass">  → Result: APPROVED (all gates passed)</span>
+      </div>
+    </div>
+
+    <div id="out-ironworm" class="tab-panel">
+      <div class="output-block">
+<span class="out-info">╭─────────────────────────────────────────────────────╮
+│  Scenario 4 — IronWorm behavioral pattern matching  │
+│  Simulating sandbox events from an IronWorm install │
+╰─────────────────────────────────────────────────────╯</span>
+
+<span class="out-dim">  Sandbox events observed during install:
+    ⚙  ./tools/setup --collect
+    ⚙  BPF_PROG_LOAD fd=3 flags=0
+    🔑  OPENAI_API_KEY=sk-abc123def456
+    🔑  ANTHROPIC_API_KEY=sk-ant-xyz789
+    📄  /root/.aws/credentials
+    📄  /root/.config/Exodus/exodus.wallet
+    🌐  http://abc123def456789.onion/api/agent
+    🌐  https://temp.sh/upload/secrets.enc
+    📄  .github/workflows/release.yml</span>
+
+<span class="out-dim">  Matching against 34 behavioral patterns...</span>
+
+<span class="out-fail">  [CRITICAL] IRONWORM-002b: UPX-packed binary execution from tools/ directory
+  [CRITICAL] IRONWORM-002:  eBPF program load via bpf() syscall — rootkit
+  [CRITICAL] IRONWORM-003:  AI provider API key access (OpenAI, Anthropic)
+  [CRITICAL] IRONWORM-001:  Outbound connection to Tor .onion C2
+  [CRITICAL] IRONWORM-001c: Exfil fallback to temp.sh
+  [CRITICAL] IRONWORM-005b: Exodus wallet data directory access
+  [CRITICAL] IRONWORM-007:  Write to .github/workflows — workflow hijack</span>
+<span class="out-warn">  [HIGH]     CRED-003:      AWS credentials file read
+  [HIGH]     CRED-005:      SSH private key directory read
+  [HIGH]     IRONWORM-006:  .npmrc file read</span>
+
+<span class="out-dim">  Findings: 13 patterns triggered
+  Attack families identified: IronWorm
+  Critical findings: 10</span>
+
+<span class="out-fail">  → Result: BLOCKED</span>
+      </div>
+    </div>
+
+    <div id="out-zeroday" class="tab-panel">
+      <div class="output-block">
+<span class="out-info">╭─────────────────────────────────────────────────────╮
+│  Scenario 6 — Zero-day expedited lane               │
+╰─────────────────────────────────────────────────────╯</span>
+
+<span class="out-dim">  Step 1: Requester files exception for CVE-2024-99999</span>
+<span class="out-pass">  ✓ Quorum request created: b17da48e16af040a
+    Approvals  : 0 / 2 required
+    Expires    : 6 hours
+    Requester dev@example.com excluded from approver pool</span>
+
+<span class="out-dim">  Step 2: First approver votes (MFA token: 123456)</span>
+<span class="out-pass">  ✓ Approval recorded by ciso@example.com — 1/2</span>
+
+<span class="out-dim">  Step 3: Wrong MFA token rejected</span>
+<span class="out-fail">  ✗ MFA failure: MFA verification failed</span>
+
+<span class="out-dim">  Step 4: Second approver votes with correct token</span>
+<span class="out-pass">  ✓ Status: APPROVED — quorum reached!</span>
+
+<span class="out-dim">  Step 5: Duplicate vote rejected</span>
+<span class="out-fail">  ✗ Duplicate vote rejected — request already approved</span>
+
+<span class="out-pass">  → Result: APPROVED via zero-day lane
+  Age gate bypassed. All other gates still run.
+  Deploy: immediate full-fleet + 48h elevated alert window.</span>
+      </div>
+    </div>
+
+    <div id="out-check" class="tab-panel">
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot" style="background:#ff5f57"></div><div class="code-dot" style="background:#ffbd2e"></div><div class="code-dot" style="background:#28ca41"></div></div><div class="code-filename">terminal</div></div>
+        <div class="code-body"><pre>oss-trust check \
+  --package requests \
+  --version 2.33.0 \
+  --ecosystem PyPI \
+  --github-repo psf/requests</pre></div>
+      </div>
+      <div class="output-block">
+<span class="out-info">requests@2.33.0 (PyPI) — lane: standard
+Outcome: APPROVED
+Message: requests@2.33.0 cleared all gates.</span>
+
+<span class="out-dim">Gate           Passed   Decision</span>
+<span class="out-pass">age            yes      pass (1732h old)
+oob_trust      yes      PASS (score: 93/100)</span>
+<span class="out-dim">sbom           yes      pass (stub)
+sandbox        yes      pass (stub)</span>
+      </div>
+    </div>
+
+    <div id="out-tests" class="tab-panel">
+      <div class="output-block">
+<span class="out-dim">$ pytest tests/ -v</span>
+<span class="out-dim">platform linux -- Python 3.12.13, pytest-9.0.3
+collected 131 items
+
+tests/test_check_all.py::test_parse_requirements_basic PASSED
+tests/test_check_all.py::test_save_and_reload_publishers PASSED
+...
+tests/test_gate1_age.py::test_hard_block_at_1_hour PASSED
+tests/test_gate1_age.py::test_hold_at_24_hours PASSED
+tests/test_gate1_age.py::test_pass_at_73_hours PASSED
+...
+tests/test_gate5_behavioral.py::test_ironworm_001_tor_onion PASSED
+tests/test_gate5_behavioral.py::test_ironworm_003_openai_key PASSED
+tests/test_gate5_behavioral.py::test_ironworm_003_anthropic_key PASSED
+tests/test_gate5_behavioral.py::test_miasma_010_github_oidc PASSED
+tests/test_gate5_behavioral.py::test_miasma_001_imds_aws PASSED
+tests/test_gate5_behavioral.py::test_clean_pypi_install_no_critical PASSED
+...
+tests/test_zeroday_lane.py::test_two_approvals_reaches_quorum PASSED
+tests/test_zeroday_lane.py::test_wrong_mfa_token_rejected PASSED
+tests/test_zeroday_lane.py::test_requester_email_cannot_approve PASSED
+tests/test_zeroday_lane.py::test_expired_request_rejected PASSED
+...
+tests/test_integration.py::test_zeroday_approval_then_sandbox_blocks_malicious PASSED
+tests/test_integration.py::test_requests_2323_has_vulns PASSED
+tests/test_integration.py::test_requests_2330_is_clean PASSED</span>
+
+<span class="out-pass">========================= 131 passed in 0.92s =========================</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHECK ALL -->
+<section id="checkall">
+  <div class="container">
+    <div class="section-label">Dependency checker</div>
+    <div class="section-title">Validate your whole dependency graph.</div>
+    <p class="section-sub"><code style="background:var(--surface);padding:0.2rem 0.5rem;border-radius:5px;font-size:0.9rem">check_all.py</code> checks every package in <code style="background:var(--surface);padding:0.2rem 0.5rem;border-radius:5px;font-size:0.9rem">requirements.txt</code> and <code style="background:var(--surface);padding:0.2rem 0.5rem;border-radius:5px;font-size:0.9rem">framework_deps.txt</code> against Gate 1 and Gate 3, then interactively offers to add unlisted packages to your publisher allowlist.</p>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-dots"><div class="code-dot" style="background:#ff5f57"></div><div class="code-dot" style="background:#ffbd2e"></div><div class="code-dot" style="background:#28ca41"></div></div><div class="code-filename">terminal</div></div>
+      <div class="code-body"><pre>python check_all.py</pre></div>
+    </div>
+
+    <div class="output-block">
+<span class="out-info">  OSS Trust Framework - Dependency Check
+  Checking 10 packages across 2 file(s)</span>
+
+<span class="out-dim">  ════════════════════════════════════════════
+  Demo app - requirements.txt (3 packages)
+  ════════════════════════════════════════════</span>
+<span class="out-pass">  [v] requests==2.33.0
+       Age   : pass (1732h old)
+       Trust : PASS  score=93  vulns=0
+       repo: psf/requests</span>
+<span class="out-pass">  [v] rich==13.9.4
+       Age   : pass (2100h old)
+       Trust : PASS  score=78  vulns=0
+       repo: Textualize/rich</span>
+
+<span class="out-dim">  ════════════════════════════════════════════
+  Framework dependencies - framework_deps.txt (7 packages)
+  ════════════════════════════════════════════</span>
+<span class="out-warn">  [!] httpx==0.28.1
+       Age   : pass (890h old)
+       Trust : PASS  score=81  vulns=0
+       repo: NOT IN ALLOWLIST</span>
+
+<span class="out-dim">  ════════════════════════════════════════════
+  OVERALL SUMMARY
+  ════════════════════════════════════════════
+  Approved    : 9
+  Need review : 1
+  Not in allowlist : 3</span>
+
+<span class="out-info">  Would you like to update the allowlist now? [y/n]: y</span>
+
+<span class="out-dim">    Package 'httpx' is not in your trusted publisher allowlist.
+    Looking up canonical GitHub repo...
+    Found: github.com/encode/httpx
+
+    Options for 'httpx':
+      [1] Add to allowlist (Gate 2 repo verification)
+      [2] Add to allowlist AND require_attestation (strongest)
+      [3] Skip
+
+    Choice for 'httpx' [1/2/3]:</span>
+    </div>
+
+    <div style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:0.35rem;font-size:0.9rem">Option 1 — Add to allowlist</div>
+        <p style="font-size:0.82rem;color:var(--text2)">Adds the package to <code style="background:var(--bg3);padding:0.1rem 0.3rem;border-radius:3px">config/trusted_publishers.yaml</code>. Gate 2 will now verify that provenance attestations point to the canonical GitHub repo. A mismatch is a BLOCK.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(74,158,255,0.25);border-radius:var(--radius);padding:1.1rem">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:0.35rem;font-size:0.9rem">Option 2 — Allowlist + require_attestation</div>
+        <p style="font-size:0.82rem;color:var(--text2)">Strongest protection. A missing attestation is upgraded from QUARANTINE to BLOCK. Use for your most security-critical dependencies: crypto primitives, HTTP clients, auth libraries.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GATE REFERENCE -->
+<section class="bg2" id="gates">
+  <div class="container">
+    <div class="section-label">Gate reference</div>
+    <div class="section-title">Five gates. What each checks.</div>
+    <div class="attack-table-wrap">
+      <table class="gate-table">
+        <thead>
+          <tr><th>Gate</th><th>Controls</th><th>Fail action</th><th>Bypassable?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="gate-num">1 — Age</td><td>Release timestamp vs 24 h / 72 h thresholds</td><td><span class="gate-action ga-block">BLOCK</span> / <span class="gate-action ga-quarantine">HOLD</span></td><td>Age only — with CVE + MFA quorum</td></tr>
+          <tr><td class="gate-num">2 — Provenance</td><td>Sigstore attestation present; sourceRepositoryURI vs trusted_publishers.yaml</td><td><span class="gate-action ga-block">BLOCK</span> (mismatch) · <span class="gate-action ga-quarantine">QUARANTINE</span> (missing)</td><td>No</td></tr>
+          <tr><td class="gate-num">2.5a — Orphan commits</td><td>Release tag commit reachable from default branch via BFS graph walk</td><td><span class="gate-action ga-block">BLOCK</span></td><td>No</td></tr>
+          <tr><td class="gate-num">2.5b — Workflow perms</td><td>id-token:write in publishing workflow without compensating controls</td><td><span class="gate-action ga-quarantine">QUARANTINE</span></td><td>No</td></tr>
+          <tr><td class="gate-num">2.5c — PR provenance</td><td>Release backed by merged PR with ≥ 1 approving reviewer</td><td><span class="gate-action ga-block">BLOCK</span> (no PR) · <span class="gate-action ga-quarantine">QUARANTINE</span> (no review)</td><td>No</td></tr>
+          <tr><td class="gate-num">3 — OOB Trust</td><td>OpenSSF Scorecard ≥ threshold; zero active CVEs via OSV + deps.dev + GHSA. Source failures degrade score gracefully.</td><td><span class="gate-action ga-quarantine">QUARANTINE</span></td><td>No</td></tr>
+          <tr><td class="gate-num">4 — SBOM delta</td><td>No unexpected transitive deps; lock file hash unchanged</td><td><span class="gate-action ga-quarantine">QUARANTINE</span></td><td>No</td></tr>
+          <tr><td class="gate-num">5 — Behavioral sandbox</td><td>gVisor install-time execution; 34 named patterns (18 Miasma + 16 IronWorm)</td><td><span class="gate-action ga-block">BLOCK</span></td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TESTS -->
+<section id="tests">
+  <div class="container">
+    <div class="section-label">Test suite</div>
+    <div class="section-title">131 tests. All offline. Under one second.</div>
+    <p class="section-sub">Every external API call is mocked. Tests run fully offline and complete in under one second on CI. Run with <code style="background:var(--surface);padding:0.2rem 0.5rem;border-radius:5px;font-size:0.85rem">pytest</code> from the demo repo root.</p>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-count">11</div>
+        <div class="test-file">test_gate1_age.py</div>
+        <div class="test-desc">Age threshold boundaries — hard block at 1h/23h, hold at 24h–71h, pass at 73h+, custom thresholds, result metadata</div>
+      </div>
+      <div class="test-card">
+        <div class="test-count">6</div>
+        <div class="test-file">test_gate3_trust.py</div>
+        <div class="test-desc">OOB trust — clean pass, CVE quarantine, score bounds, source failure resilience (degrades gracefully, doesn't fail)</div>
+      </div>
+      <div class="test-card">
+        <div class="test-count">50</div>
+        <div class="test-file">test_gate5_behavioral.py</div>
+        <div class="test-desc">All 34 patterns individually, both attack chains, clean install false-positive prevention, utility functions</div>
+      </div>
+      <div class="test-card">
+        <div class="test-count">23</div>
+        <div class="test-file">test_zeroday_lane.py</div>
+        <div class="test-desc">Full quorum lifecycle — create, approve ×2, quorum reached, MFA failure, duplicate vote, expiry, self-approval blocked</div>
+      </div>
+      <div class="test-card">
+        <div class="test-count">10</div>
+        <div class="test-file">test_integration.py</div>
+        <div class="test-desc">Cross-gate scenarios — old+clean clears G1+G3, new blocked regardless of trust, regression: requests 2.32.3 vs 2.33.0</div>
+      </div>
+      <div class="test-card">
+        <div class="test-count">13</div>
+        <div class="test-file">test_check_all.py</div>
+        <div class="test-desc">Dependency checker utilities — requirements parsing, allowlist save/reload, result aggregation logic</div>
+      </div>
+      <div class="test-card">
+        <div class="test-count">18</div>
+        <div class="test-file">test_scenarios.py</div>
+        <div class="test-desc">Original demo scenarios — age gates, IronWorm patterns, Miasma patterns, zero-day quorum basics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFS -->
+<section class="bg2" id="references">
+  <div class="container">
+    <div class="section-label">References</div>
+    <div class="section-title">Further reading.</div>
+    <div class="refs-grid">
+      <a class="ref-card" href="https://github.com/chrisgillham/oss-trust-framework" target="_blank">
+        <div class="ref-type">Framework</div>
+        <div class="ref-title">OSS Trust Framework — GitHub</div>
+        <div class="ref-desc">The core framework this demo exercises. Gates, behavioral patterns, zero-day lane, CI workflow.</div>
+      </a>
+      <a class="ref-card" href="https://research.jfrog.com/post/iron-worm-shai-hulud-rustier-cousin/" target="_blank">
+        <div class="ref-type">Incident analysis</div>
+        <div class="ref-title">IronWorm: Shai-Hulud's rustier cousin — JFrog</div>
+        <div class="ref-desc">The JFrog research post that identified IronWorm. Covers the Rust ELF binary, eBPF rootkit, and Tor C2 architecture.</div>
+      </a>
+      <a class="ref-card" href="https://www.bleepingcomputer.com/news/security/new-ironworm-malware-hits-36-packages-in-npm-supply-chain-attack/" target="_blank">
+        <div class="ref-type">Incident analysis</div>
+        <div class="ref-title">IronWorm malware hits 36 npm packages — BleepingComputer</div>
+        <div class="ref-desc">Coverage of the asteroiddao campaign including the credential file targets and self-propagation mechanism.</div>
+      </a>
+      <a class="ref-card" href="https://devops.com/shai-hulud-clone-miasma-compromises-32-red-hat-npm-packages/" target="_blank">
+        <div class="ref-type">Incident analysis</div>
+        <div class="ref-title">Miasma compromises 32 Red Hat npm packages</div>
+        <div class="ref-desc">The attack that prompted Gate 2.5 — orphan commits, id-token:write, OIDC trusted publishing.</div>
+      </a>
+      <a class="ref-card" href="https://osv.dev" target="_blank">
+        <div class="ref-type">Tool — Gate 3</div>
+        <div class="ref-title">OSV — Open Source Vulnerabilities</div>
+        <div class="ref-desc">Cross-ecosystem CVE database used in Gate 3. Scenario 2 queries this live against pillow 9.0.0.</div>
+      </a>
+      <a class="ref-card" href="https://securityscorecards.dev" target="_blank">
+        <div class="ref-type">Tool — Gate 3</div>
+        <div class="ref-title">OpenSSF Scorecard</div>
+        <div class="ref-desc">Automated security hygiene scoring. Contributes 40% of the Gate 3 composite score.</div>
+      </a>
+      <a class="ref-card" href="https://deps.dev" target="_blank">
+        <div class="ref-type">Tool — Gate 3</div>
+        <div class="ref-title">deps.dev (Google)</div>
+        <div class="ref-desc">Dependency graph and known advisory data — queried independently of the package repository.</div>
+      </a>
+      <a class="ref-card" href="https://docs.sigstore.dev" target="_blank">
+        <div class="ref-type">Standard — Gate 2</div>
+        <div class="ref-title">Sigstore / cosign</div>
+        <div class="ref-desc">The provenance attestation standard. Gate 2 verifies sourceRepositoryURI against the trusted publishers allowlist.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">OSS<span>Trust</span> Demo</div>
+  <div class="footer-sub">A test application for the OSS Trust Framework · MIT License</div>
+  <div class="footer-links">
+    <a href="https://github.com/chrisgillham/oss-trust-demo">GitHub</a>
+    <a href="https://github.com/chrisgillham/oss-trust-framework">Framework</a>
+    <a href="#install">Installation</a>
+    <a href="#scenarios">Scenarios</a>
+    <a href="#tests">Tests</a>
+    <a href="#gates">Gate Reference</a>
+  </div>
+</footer>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.scenario-card,.value-card,.test-card,.incident-card,.ref-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
