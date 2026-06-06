@@ -26,3 +26,8 @@ demo = "demo.cli:main"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[project.urls]
+Homepage = "https://github.com/chrisgillham/oss-trust-demo"
+Documentation = "https://chrisgillham.github.io/oss-trust-demo"
+Repository = "https://github.com/chrisgillham/oss-trust-demo"
